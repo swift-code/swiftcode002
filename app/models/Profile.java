@@ -21,4 +21,6 @@ public class Profile extends Model {
     public String firstName;
     public String lastName;
     public String company;
+    //project
+
 }
