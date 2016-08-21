@@ -32,4 +32,7 @@ public class ConnectionRequest extends Model{
         ACCEPTED
     }
 
+
+    public static Model.Finder<Long,ConnectionRequest> find = new Model.Finder<Long, ConnectionRequest>(ConnectionRequest.class);
+
 }

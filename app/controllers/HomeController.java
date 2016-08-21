@@ -52,16 +52,16 @@ public class HomeController extends Controller {
         );
 
         data.set("connections",objectMapper.valueToTree(user.connections.stream()
-        .map(x-> {
-                    User connectedUser = User.find.byId(x.id);
-                    Profile connectedProfile = profile.find.byId(connectedUser.profile.id);
-                    ObjectNode connectionJson = objectMapper.createObjectNode();
-                    connectionJson.put("email",connectedUser.email);
-                    connectionJson.put("firstName",connectedProfile.firstName);
-                    connectionJson.put("lastName",connectedProfile.lastName);
-            return connectionJson;
-                }
-        ).collect(Collectors.toList()))
+                .map(x-> {
+                            User connectedUser = User.find.byId(x.id);
+                            Profile connectedProfile = profile.find.byId(connectedUser.profile.id);
+                            ObjectNode connectionJson = objectMapper.createObjectNode();
+                            connectionJson.put("email",connectedUser.email);
+                            connectionJson.put("firstName",connectedProfile.firstName);
+                            connectionJson.put("lastName",connectedProfile.lastName);
+                            return connectionJson;
+                        }
+                ).collect(Collectors.toList()))
         );
 
 
@@ -78,7 +78,7 @@ public class HomeController extends Controller {
                             return requestorjson;
                         }).collect(Collectors.toList())));
 
-        return ok(String.valueOf(objectMapper.valueToTree(data)));
+        return ok(data);
     }
 
 }
