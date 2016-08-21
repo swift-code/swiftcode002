@@ -63,7 +63,22 @@ public class HomeController extends Controller {
                 }
         ).collect(Collectors.toList()))
         );
-        return ok();
+
+
+        data.set("connectionRequestsReceived", objectMapper.valueToTree(
+                user.connectionRequestsReceived.stream()
+                        .map(x -> {
+                            User requestor = User.find.byId(x.sender.id);
+                            Profile requestorProfile = Profile.find.byId(requestor.profile.id);
+                            ObjectNode requestorjson = objectMapper.createObjectNode();
+                            requestorjson.put("email", requestor.email);
+                            requestorjson.put("firstName", requestorProfile.firstName);
+                            requestorjson.put("lastName", requestorProfile.lastName);
+                            requestorjson.put("connectionRequestId", x.id);
+                            return requestorjson;
+                        }).collect(Collectors.toList())));
+
+        return ok(String.valueOf(objectMapper.valueToTree(data)));
     }
 
 }
