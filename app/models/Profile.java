@@ -27,4 +27,6 @@ public class Profile extends Model {
     public String company;
     //project
 
+    public static Finder<Long,Profile> find = new Finder<Long, Profile>(Profile.class);
+
 }
