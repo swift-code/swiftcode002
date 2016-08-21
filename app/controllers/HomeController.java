@@ -12,6 +12,8 @@ import play.mvc.Result;
 import play.mvc.Results;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +34,22 @@ public class HomeController extends Controller {
         List<Long> connectionRequestSendUserIds = user.connectionRequestsSent.stream().map(x->x.receiver.id).collect(Collectors.toList());
 
 
-        data.set("suggestion",null);
+        data.set("suggestion",objectMapper.valueToTree(
+                User.find.all().stream()
+                        .filter(x-> !connectedUserIds.contains(x.id) && !connectionRequestSendUserIds.contains(x.id) &&
+                                !Objects.equals(x.id,userId))
+                        .map(x -> {
+                                    ObjectNode jsonNodes = objectMapper.createObjectNode();
+                                    Profile profile1 = Profile.find.byId(x.profile.id);
+                                    jsonNodes.put("firstName", profile1.firstName);
+                                    jsonNodes.put("lastName", profile1.lastName);
+                                    jsonNodes.put("id", x.id);
+                                    jsonNodes.put("emailId", x.email);
+                                    return jsonNodes;
+                                }
+                        ).collect(Collectors.toList()))
+        );
+
         return ok();
     }
 
