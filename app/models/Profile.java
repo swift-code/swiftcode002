@@ -14,6 +14,10 @@ import javax.persistence.Id;
 @Entity
 public class Profile extends Model {
 
+    public Profile(String firstName,String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;

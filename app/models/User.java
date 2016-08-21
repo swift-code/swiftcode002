@@ -15,6 +15,12 @@ import java.util.Set;
 public class User extends Model {
 
     //Creating a model for user database
+    public User(String email, String password) {
+
+        this.email = email;
+        this.password  = BCrypt.hashpw(password,BCrypt.gensalt());
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

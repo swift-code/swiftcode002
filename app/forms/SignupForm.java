@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Created by lubuntu on 8/20/16.
  */
+
 public class SignupForm {
 
     @Constraints.Required
@@ -25,16 +26,16 @@ public class SignupForm {
     @Constraints.Required
     public String lastName;
 
-    public List<ValidationError> validate()
-    {
+    public List<ValidationError> validate() {
         List<ValidationError> errors = new ArrayList<>();
         User user = User.find.where().eq("email",email).findUnique();
-        if(user!= null)
-        {
+
+        if(user!= null) {
             errors.add(new ValidationError("message","Email already exists"));
             errors.add(new ValidationError("error","true"));
         }
         return errors;
+
     }
 
 
@@ -69,4 +70,5 @@ public class SignupForm {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
 }
