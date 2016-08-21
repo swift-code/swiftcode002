@@ -24,6 +24,7 @@ public class HomeController extends Controller {
     @Inject FormFactory formFactory;
     @Inject ObjectMapper objectMapper;
 
+
     public Result getProfile(Long userId) {
 
         User user = User.find.byId(userId);
@@ -50,6 +51,18 @@ public class HomeController extends Controller {
                         ).collect(Collectors.toList()))
         );
 
+        data.set("connections",objectMapper.valueToTree(user.connections.stream()
+        .map(x-> {
+                    User connectedUser = User.find.byId(x.id);
+                    Profile connectedProfile = profile.find.byId(connectedUser.profile.id);
+                    ObjectNode connectionJson = objectMapper.createObjectNode();
+                    connectionJson.put("email",connectedUser.email);
+                    connectionJson.put("firstName",connectedProfile.firstName);
+                    connectionJson.put("lastName",connectedProfile.lastName);
+            return connectionJson;
+                }
+        ).collect(Collectors.toList()))
+        );
         return ok();
     }
 
