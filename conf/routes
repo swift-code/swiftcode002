@@ -6,4 +6,9 @@
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 POST    /signup                     controllers.Application.signUp()
 POST    /login                      controllers.Application.logIn()
-GET     /profile/:userId                controllers.HomeController.getProfile(userId:Long)
+
+GET     /profile/:userId            controllers.HomeController.getProfile(userId:Long)
+POST    /profile/:userId            controllers.HomeController.updateProfile(userId:Long)
+
+POST    /request/send/:senderId/:receiverId     controllers.ConnectionController.sendConnectionRequest(senderId:Long,receiverId:Long)
+POST    /request/accept/:userId     controllers.ConnectionController.acceptConnectionRequest(userId:Long)
